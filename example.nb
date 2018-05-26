@@ -1,6 +1,6 @@
-Este comando lista os ficheiros:
+This command lists all files in the current directory:
 $ ls -la
-Agora podemos ordenar estes ficheiros:
+Now we can order that files:
 $| sort
-E escolher o primeiro:
+And from that ordered list fetch the first one:
 $| head -1
