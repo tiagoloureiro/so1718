@@ -1,15 +1,15 @@
 #include "main.h"
 
 int main(int argc , char *argv[]){
-	//Abre o ficheiro que o programa recebe como argumento.
+	// Open file that is received as an argument by the program
 	int fd = open(argv[1], O_RDWR, 0640);	
-	//Cria um pipeline para guardar o resultado do último comando.
+	// Creates pipeline to save last command result
 	mkfifo("Pipeline", 0640);
 	open("execBefore.txt", O_CREAT | O_TRUNC, 0640);
 	open("tmp.txt", O_CREAT | O_TRUNC, 0640);
 	int fd2 = open("error.txt", O_CREAT | O_WRONLY | O_TRUNC, 0640);
 	if(fd < 0){
-		perror("Ficheiro inexistente.\n");
+		perror("The file does not exists\n");
 		exit(1);
 	}
 	dup2(fd,0);
@@ -20,7 +20,7 @@ int main(int argc , char *argv[]){
 	size_t bufsize = 256;
 	buffer = (char*)malloc(bufsize * sizeof(char));
 	if(buffer == NULL){
-	 	perror("Não é possivel alocar o buffer\n");
+	 	perror("It is not possible to alloc buffer\n");
 	}
 	size_t n;
 	int flag = 0;
@@ -55,7 +55,7 @@ int main(int argc , char *argv[]){
 			int error = open("error.txt", O_RDONLY);
 			if(read(error, NULL, 1)!=0){
 				dup(1);
-				write(1, "Erro de execução!\nConsulte os erros no ficheiro erros.txt.\n",61);
+				write(1, "Execution error!\nCheck errors on file error.txt.\n",61);
 				unlink("Pipeline");
 				unlink("tmp.txt");
 				unlink("execBefore.txt");
