@@ -1,37 +1,6 @@
 Este comando lista os ficheiros:
 $ ls -la
->>>
-total 120
-drwxrwxr-x 2 johnny johnny  4096 Mai 24 00:18 .
-drwxrwxr-x 8 johnny johnny  4096 Mai 23 23:25 ..
--rw-rw-r-- 1 johnny johnny 74687 Mai  1 19:28 enunciado-so-2017-18.pdf
--rw-r----- 1 johnny johnny     0 Mai 24 00:18 error.txt
--rw-r----- 1 johnny johnny     0 Mai 24 00:18 execBefore.txt
--rw-rw-r-- 1 johnny johnny   376 Mai 24 00:18 exemplo.nb
--rw-rw-r-- 1 johnny johnny  1774 Mai 24 00:17 main.c
--rw-rw-r-- 1 johnny johnny  3297 Mai 24 00:16 main.h
-prw-r----- 1 johnny johnny     0 Mai 24 00:18 Pipeline
--rwxrwxr-x 1 johnny johnny 13720 Mai 24 00:18 processnb
--rw-r----- 1 johnny johnny    46 Mai 24 00:18 tmp.txt
-<<<
 Agora podemos ordenar estes ficheiros:
 $| sort
->>>
-drwxrwxr-x 2 johnny johnny  4096 Mai 24 00:18 .
-drwxrwxr-x 8 johnny johnny  4096 Mai 23 23:25 ..
-prw-r----- 1 johnny johnny     0 Mai 24 00:18 Pipeline
--rw-r----- 1 johnny johnny     0 Mai 24 00:18 error.txt
--rw-r----- 1 johnny johnny     0 Mai 24 00:18 execBefore.txt
--rw-r----- 1 johnny johnny    46 Mai 24 00:18 tmp.txt
--rw-rw-r-- 1 johnny johnny  1774 Mai 24 00:17 main.c
--rw-rw-r-- 1 johnny johnny  3297 Mai 24 00:16 main.h
--rw-rw-r-- 1 johnny johnny   376 Mai 24 00:18 exemplo.nb
--rw-rw-r-- 1 johnny johnny 74687 Mai  1 19:28 enunciado-so-2017-18.pdf
--rwxrwxr-x 1 johnny johnny 13720 Mai 24 00:18 processnb
-total 120
-<<<
 E escolher o primeiro:
 $| head -1
->>>
-drwxrwxr-x 2 johnny johnny  4096 Mai 24 00:18 .
-<<<
