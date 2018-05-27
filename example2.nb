@@ -1,16 +1,4 @@
 We have a shopping list saved on shopping_list.list, lets fetch it:
 $ cat shopping_list.list
->>>
-4,50 Potatos
-2,00 Carrots
-1,00 Lectuce
-10,00 Porc meet 
-<<<
 Now we want to order it by price from higher to lower:
 $| sort -k 2 -r
->>>
-4,50 Potatos
-10,00 Porc meet 
-1,00 Lectuce
-2,00 Carrots
-<<<
