@@ -6,8 +6,8 @@ compile: main.c
 run:
 	./processnb example.nb
 	
-run_all:
-	find . -iname 'example*.nb' -exec ./processnb {} . \;
+run_all: compile
+	find . -maxdepth 0 -iname 'example*.nb' -exec ./processnb {} . \;
 
 clean:
 	find example_base -iname 'example*.nb' -exec cp {} . \;
