@@ -7,7 +7,7 @@ run:
 	./processnb example.nb
 	
 run_all: compile
-	find . -maxdepth 0 -iname 'example*.nb' -exec ./processnb {} . \;
+	find . -maxdepth 1 -iname 'example*.nb' -exec ./processnb {} . \;
 
 clean:
 	find example_base -iname 'example*.nb' -exec cp {} . \;
