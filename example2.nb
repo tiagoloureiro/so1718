@@ -1,4 +1,0 @@
-We have a shopping list saved on shopping_list.list, lets fetch it:
-$ cat shopping_list.list
-Now we want to order it by price from higher to lower:
-$| sort -k 2 -r
