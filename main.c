@@ -1,6 +1,7 @@
 #include "lib/helpers.h"
 
 int main(int argc, char *argv[]) {
+	
 	// Open file that is received as an argument by the program
 	int fd = open(argv[1], O_RDWR, 0640);	
 	// Creates pipeline to save last command result
