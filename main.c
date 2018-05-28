@@ -1,6 +1,6 @@
-#include "main.h"
+#include "lib/helpers.h"
 
-int main(int argc , char *argv[]){
+int main(int argc, char *argv[]) {
 	// Open file that is received as an argument by the program
 	int fd = open(argv[1], O_RDWR, 0640);	
 	// Creates pipeline to save last command result
@@ -17,7 +17,7 @@ int main(int argc , char *argv[]){
 	dup2(fd2, 2);
 	close(fd2);
 	char *buffer;
-	size_t bufsize = 256;
+	size_t bufsize = BUFSIZE;
 	buffer = (char*)malloc(bufsize * sizeof(char));
 	if(buffer == NULL){
 	 	perror("It is not possible to alloc buffer\n");
@@ -77,5 +77,6 @@ int main(int argc , char *argv[]){
 	unlink("tmp.txt");
 	unlink("execBefore.txt");
 	unlink("error.txt");
+
 	return 0;
 }

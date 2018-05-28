@@ -1,7 +1,7 @@
 make: compile run
 
 compile: main.c
-	gcc -o processnb main.c
+	gcc main.c lib/helpers.c -o processnb
 
 run:
 	./processnb example.nb
