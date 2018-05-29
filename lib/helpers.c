@@ -6,6 +6,7 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include<time.h>
 
 ssize_t readln(int fildes, void *buffer, size_t nbyte){
 	char *cbuffer = (char*) buffer;
@@ -35,6 +36,17 @@ size_t gatherArg(char* arg[], char* buffer, size_t size){
 	return l;
 }
 
+void randomName(char* dir){
+	srand(time(0));
+	int ascii;
+	char c;
+	for(int i = 0; i<8; i++){
+		ascii = (rand() % 26) + 97;
+		c = ascii;
+		dir[i] = c;
+	}
+}
+
 int analyse(char* buffer, ssize_t size){
 	if(size > 2){
 		if(buffer[0]== '$'){
@@ -61,7 +73,7 @@ int analyse(char* buffer, ssize_t size){
 	return 0;
 }
 
-void execute(char* arg[],  ssize_t num){
+void execute(char* arg[],  ssize_t num, int execs){
 	if(!fork()){
 		if(!fork()){
 			int fd = open("Pipeline", O_WRONLY, 0640);

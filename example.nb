@@ -1,53 +1,47 @@
 This command lists all files in the current directory:
 $ ls -la
 >>>
-total 264
-drwxr-xr-x  5 tiago tiago  4096 mai 28 22:33 .
-drwxrwxr-x 10 tiago tiago  4096 mai 26 22:21 ..
--rwxr-xr-x  1 tiago tiago  8160 mai 28 22:31 a.out
--rw-rw-r--  1 tiago tiago 74687 mai  1 19:28 enunciado-so-2017-18.pdf
--rw-r-----  1 tiago tiago     0 mai 28 22:33 error.txt
-drwxrwxr-x  2 tiago tiago  4096 mai 28 21:50 example_base
--rw-r--r--  1 tiago tiago   160 mai 28 21:50 example.nb
--rw-r-----  1 tiago tiago     0 mai 28 22:33 execBefore.txt
-drwxr-xr-x  8 tiago tiago  4096 mai 28 22:32 .git
--rw-r--r--  1 tiago tiago   441 mai 26 22:27 .gitignore
-drwxr-xr-x  2 tiago tiago  4096 mai 28 21:57 lib
--rw-rw-r--  1 tiago tiago  1767 mai 28 22:33 main.c
--rw-rw-r--  1 tiago tiago   304 mai 28 22:10 main.h
--rw-r--r--  1 tiago tiago  9744 mai 26 22:35 main.o
--rw-r--r--  1 tiago tiago   254 mai 28 22:30 Makefile
-prw-r-----  1 tiago tiago     0 mai 28 22:33 Pipeline
--rwxr-xr-x  1 tiago tiago 13312 mai 28 22:33 processnb
--rw-r--r--  1 tiago tiago     8 mai 26 22:21 README.md
--rw-r-----  1 tiago tiago    68 mai 28 22:33 tmp.txt
+total 136
+drwxrwxr-x  5 johnny johnny  4096 Mai 29 02:00 .
+drwxr-xr-x 16 johnny johnny  4096 Mai 28 23:09 ..
+-rw-rw-r--  1 johnny johnny 74687 Mai 28 23:09 enunciado-so-2017-18.pdf
+-rw-r-----  1 johnny johnny     0 Mai 29 02:00 error.txt
+drwxrwxr-x  2 johnny johnny  4096 Mai 28 23:09 example_base
+-rw-rw-r--  1 johnny johnny  2174 Mai 29 01:57 example.nb
+-rw-r-----  1 johnny johnny     0 Mai 29 02:00 execBefore.txt
+drwxrwxr-x  8 johnny johnny  4096 Mai 28 23:14 .git
+-rw-rw-r--  1 johnny johnny   441 Mai 28 23:09 .gitignore
+drwxrwxr-x  2 johnny johnny  4096 Mai 28 23:09 lib
+-rw-rw-r--  1 johnny johnny  1858 Mai 29 01:57 main.c
+-rw-rw-r--  1 johnny johnny   254 Mai 28 23:09 Makefile
+prw-r-----  1 johnny johnny     0 Mai 29 02:00 Pipeline
+-rwxrwxr-x  1 johnny johnny 13920 Mai 29 02:00 processnb
+-rw-rw-r--  1 johnny johnny     8 Mai 28 23:09 README.md
+-rw-r-----  1 johnny johnny    68 Mai 29 02:00 tmp.txt
 <<<
 Now we can order that files:
 $| sort
 >>>
-drwxrwxr-x 10 tiago tiago  4096 mai 26 22:21 ..
-drwxrwxr-x  2 tiago tiago  4096 mai 28 21:50 example_base
-drwxr-xr-x  2 tiago tiago  4096 mai 28 21:57 lib
-drwxr-xr-x  5 tiago tiago  4096 mai 28 22:33 .
-drwxr-xr-x  8 tiago tiago  4096 mai 28 22:32 .git
-prw-r-----  1 tiago tiago     0 mai 28 22:33 Pipeline
--rw-r-----  1 tiago tiago     0 mai 28 22:33 error.txt
--rw-r-----  1 tiago tiago     0 mai 28 22:33 execBefore.txt
--rw-r-----  1 tiago tiago    68 mai 28 22:33 tmp.txt
--rw-r--r--  1 tiago tiago   160 mai 28 21:50 example.nb
--rw-r--r--  1 tiago tiago   254 mai 28 22:30 Makefile
--rw-r--r--  1 tiago tiago   441 mai 26 22:27 .gitignore
--rw-r--r--  1 tiago tiago     8 mai 26 22:21 README.md
--rw-r--r--  1 tiago tiago  9744 mai 26 22:35 main.o
--rw-rw-r--  1 tiago tiago  1767 mai 28 22:33 main.c
--rw-rw-r--  1 tiago tiago   304 mai 28 22:10 main.h
--rw-rw-r--  1 tiago tiago 74687 mai  1 19:28 enunciado-so-2017-18.pdf
--rwxr-xr-x  1 tiago tiago 13312 mai 28 22:33 processnb
--rwxr-xr-x  1 tiago tiago  8160 mai 28 22:31 a.out
-total 264
+drwxrwxr-x  2 johnny johnny  4096 Mai 28 23:09 example_base
+drwxrwxr-x  2 johnny johnny  4096 Mai 28 23:09 lib
+drwxrwxr-x  5 johnny johnny  4096 Mai 29 02:00 .
+drwxrwxr-x  8 johnny johnny  4096 Mai 28 23:14 .git
+drwxr-xr-x 16 johnny johnny  4096 Mai 28 23:09 ..
+prw-r-----  1 johnny johnny     0 Mai 29 02:00 Pipeline
+-rw-r-----  1 johnny johnny     0 Mai 29 02:00 error.txt
+-rw-r-----  1 johnny johnny     0 Mai 29 02:00 execBefore.txt
+-rw-r-----  1 johnny johnny    68 Mai 29 02:00 tmp.txt
+-rw-rw-r--  1 johnny johnny  1858 Mai 29 01:57 main.c
+-rw-rw-r--  1 johnny johnny  2174 Mai 29 01:57 example.nb
+-rw-rw-r--  1 johnny johnny   254 Mai 28 23:09 Makefile
+-rw-rw-r--  1 johnny johnny   441 Mai 28 23:09 .gitignore
+-rw-rw-r--  1 johnny johnny 74687 Mai 28 23:09 enunciado-so-2017-18.pdf
+-rw-rw-r--  1 johnny johnny     8 Mai 28 23:09 README.md
+-rwxrwxr-x  1 johnny johnny 13920 Mai 29 02:00 processnb
+total 136
 <<<
 And from that ordered list fetch the first one:
 $| head -1
 >>>
-drwxrwxr-x 10 tiago tiago  4096 mai 26 22:21 ..
+drwxrwxr-x  2 johnny johnny  4096 Mai 28 23:09 example_base
 <<<
