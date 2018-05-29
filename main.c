@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
 				dup(1);
 				write(1, "Execution error!\nCheck errors on file error.txt.\n",61);
 				unlink("Pipeline");
-				unlink("tmp.txt");
+				//unlink("tmp.txt");
 				unlink("execBefore.txt");
 				return -1;
 			}
