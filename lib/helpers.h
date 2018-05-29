@@ -17,8 +17,8 @@ void randomName(char* dir);
 
 int analyse(char* buffer, ssize_t size);
 
-void execute(char* arg[],  ssize_t num, int execs);
+void execute(char* arg[],  ssize_t num, char* dir, int execs);
 
-void executePipe(char* arg[], ssize_t num, int execs);
+void executePipe(char* arg[], ssize_t num, char* dir, int execs);
 
-void printline(char* buffer, size_t n);
+void printline(char* buffer, size_t n, char* dir);

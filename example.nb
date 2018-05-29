@@ -1,47 +1,6 @@
 This command lists all files in the current directory:
 $ ls -la
->>>
-total 136
-drwxrwxr-x  5 johnny johnny  4096 Mai 29 02:00 .
-drwxr-xr-x 16 johnny johnny  4096 Mai 28 23:09 ..
--rw-rw-r--  1 johnny johnny 74687 Mai 28 23:09 enunciado-so-2017-18.pdf
--rw-r-----  1 johnny johnny     0 Mai 29 02:00 error.txt
-drwxrwxr-x  2 johnny johnny  4096 Mai 28 23:09 example_base
--rw-rw-r--  1 johnny johnny  2174 Mai 29 01:57 example.nb
--rw-r-----  1 johnny johnny     0 Mai 29 02:00 execBefore.txt
-drwxrwxr-x  8 johnny johnny  4096 Mai 28 23:14 .git
--rw-rw-r--  1 johnny johnny   441 Mai 28 23:09 .gitignore
-drwxrwxr-x  2 johnny johnny  4096 Mai 28 23:09 lib
--rw-rw-r--  1 johnny johnny  1858 Mai 29 01:57 main.c
--rw-rw-r--  1 johnny johnny   254 Mai 28 23:09 Makefile
-prw-r-----  1 johnny johnny     0 Mai 29 02:00 Pipeline
--rwxrwxr-x  1 johnny johnny 13920 Mai 29 02:00 processnb
--rw-rw-r--  1 johnny johnny     8 Mai 28 23:09 README.md
--rw-r-----  1 johnny johnny    68 Mai 29 02:00 tmp.txt
-<<<
 Now we can order that files:
 $| sort
->>>
-drwxrwxr-x  2 johnny johnny  4096 Mai 28 23:09 example_base
-drwxrwxr-x  2 johnny johnny  4096 Mai 28 23:09 lib
-drwxrwxr-x  5 johnny johnny  4096 Mai 29 02:00 .
-drwxrwxr-x  8 johnny johnny  4096 Mai 28 23:14 .git
-drwxr-xr-x 16 johnny johnny  4096 Mai 28 23:09 ..
-prw-r-----  1 johnny johnny     0 Mai 29 02:00 Pipeline
--rw-r-----  1 johnny johnny     0 Mai 29 02:00 error.txt
--rw-r-----  1 johnny johnny     0 Mai 29 02:00 execBefore.txt
--rw-r-----  1 johnny johnny    68 Mai 29 02:00 tmp.txt
--rw-rw-r--  1 johnny johnny  1858 Mai 29 01:57 main.c
--rw-rw-r--  1 johnny johnny  2174 Mai 29 01:57 example.nb
--rw-rw-r--  1 johnny johnny   254 Mai 28 23:09 Makefile
--rw-rw-r--  1 johnny johnny   441 Mai 28 23:09 .gitignore
--rw-rw-r--  1 johnny johnny 74687 Mai 28 23:09 enunciado-so-2017-18.pdf
--rw-rw-r--  1 johnny johnny     8 Mai 28 23:09 README.md
--rwxrwxr-x  1 johnny johnny 13920 Mai 29 02:00 processnb
-total 136
-<<<
 And from that ordered list fetch the first one:
 $| head -1
->>>
-drwxrwxr-x  2 johnny johnny  4096 Mai 28 23:09 example_base
-<<<

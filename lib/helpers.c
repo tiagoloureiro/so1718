@@ -45,6 +45,25 @@ void randomName(char* dir){
 		c = ascii;
 		dir[i] = c;
 	}
+	dir[8] = '\0';
+}
+
+void strconcat(char* dir, char* name, char* file){
+	int i;
+	for(i = 0; i<8; i++){
+		file[i] = dir[i];
+	}
+	file[i++] = '/';
+	for(int j = 0; name[j]!='\0'; j++, i++){
+		file[i] = name[j];
+	}
+	file[i] = '\0';
+}
+
+void intToString(char* name, int execs){
+	char c = execs;
+	name[0] = c;
+	name[1] = '\0';
 }
 
 int analyse(char* buffer, ssize_t size){
@@ -73,10 +92,12 @@ int analyse(char* buffer, ssize_t size){
 	return 0;
 }
 
-void execute(char* arg[],  ssize_t num, int execs){
+void execute(char* arg[],  ssize_t num, char* dir, int execs){
 	if(!fork()){
 		if(!fork()){
-			int fd = open("Pipeline", O_WRONLY, 0640);
+			char* file;
+			sprintf(file, "%s/%s", dir, "Pipeline");
+			int fd = open(file, O_WRONLY, 0640);
 			dup2(fd,1);
 			close(fd);
 			int x = execvp(arg[1], &arg[1]);
@@ -85,14 +106,20 @@ void execute(char* arg[],  ssize_t num, int execs){
 				exit(0);
 			}
 		}
-		else{		
-			int fd = open("Pipeline", O_RDONLY | O_TRUNC, 0640);
+		else{
+			char* file;
+			sprintf(file, "%s/%s", dir, "Pipeline");
+			int fd = open(file, O_RDONLY | O_TRUNC, 0640);
 			dup2(fd,0);
 			close(fd);
-			int fd2 = open("tmp.txt", O_WRONLY | O_APPEND);
+			char* file2;
+			sprintf(file2, "%s/%s", dir, "tmp.txt");
+			int fd2 = open(file2, O_WRONLY | O_APPEND);
 			dup2(fd2, 1);
 			close(fd2);
-			int fd3 = open("execBefore.txt", O_WRONLY | O_TRUNC);
+			char* file3;
+			sprintf(file3, "%s/%d", dir, execs);
+			int fd3 = open(file3, O_WRONLY | O_CREAT);
 			char c;
 			for(int i = 0; i < num; i++){
 				write(1, arg[i], strlen(arg[i]));
@@ -115,14 +142,16 @@ void execute(char* arg[],  ssize_t num, int execs){
 	}
 }
 
-void executePipe(char* arg[], ssize_t num){
+void executePipe(char* arg[], ssize_t num, char* dir, int execs){
 	if(!fork()){
 		if(!fork()){
 			int p[2];
 			pipe(p);
 			if(!fork()){
 				dup2(p[0],0);
-				int fd = open("Pipeline", O_WRONLY | O_TRUNC);
+				char* file;
+				sprintf(file, "%s/%s", dir, "Pipeline");
+				int fd = open(file, O_WRONLY | O_TRUNC);
 				dup2(fd, 1);
 				close(p[1]);
 				close(p[0]);
@@ -135,7 +164,9 @@ void executePipe(char* arg[], ssize_t num){
 			}
 			else{
 				dup2(p[1], 1);
-				int fd = open("execBefore.txt", O_RDONLY);
+				char* file;
+				sprintf(file, "%s/%d", dir, execs-1);
+				int fd = open(file, O_RDONLY);
 				dup2(fd, 0);
 				close(p[0]);
 				close(fd);
@@ -148,13 +179,19 @@ void executePipe(char* arg[], ssize_t num){
 		}
 		else{
 			wait(0);
-			int fd = open("Pipeline", O_RDONLY);
+			char* file;
+			sprintf(file, "%s/%s", dir, "Pipeline");
+			int fd = open(file, O_RDONLY);
 			dup2(fd,0);
 			close(fd);
-			int fd2 = open("tmp.txt", O_WRONLY | O_APPEND);
+			char* file2;
+			sprintf(file2, "%s/%s", dir, "tmp.txt");
+			int fd2 = open(file2, O_WRONLY | O_APPEND);
 			dup2(fd2, 1);
 			close(fd2);
-			int fd3 = open("execBefore.txt", O_WRONLY | O_TRUNC);
+			char* file3;
+			sprintf(file3, "%s/%d", dir, execs);
+			int fd3 = open(file3, O_WRONLY | O_CREAT);
 			char c;
 			for(int i = 0; i < num; i++){
 				write(1, arg[i], strlen(arg[i]));
@@ -177,9 +214,11 @@ void executePipe(char* arg[], ssize_t num){
 	}
 }
 
-void printline(char* buffer, size_t n){
+void printline(char* buffer, size_t n, char* dir){
 	if(!fork()){
-		int fd = open("tmp.txt", O_WRONLY | O_APPEND);
+		char* file;
+		sprintf(file, "%s/%s", dir, "tmp.txt");
+		int fd = open(file, O_WRONLY | O_APPEND);
 		dup2(fd, 1);
 		close(fd);
 		write(1, buffer, n);

@@ -5,12 +5,18 @@ int main(int argc, char *argv[]) {
 	// Open file that is received as an argument by the program
 	int fd = open(argv[1], O_RDWR, 0640);	
 	// Creates pipeline to save last command result
-	mkfifo("Pipeline", 0640);
-	open("execBefore.txt", O_CREAT | O_TRUNC, 0640);
-	open("tmp.txt", O_CREAT | O_TRUNC, 0640);
-	char dir[8];
+	char dir[9];
 	randomName(dir);
-	int fd2 = open("error.txt", O_CREAT | O_WRONLY | O_TRUNC, 0640);
+	char* file;
+	char* file2;
+	char* file3;
+	sprintf(file, "%s/%s", dir, "Pipeline");
+	mkfifo(file, 0640);
+	sprintf(file2, "%s/%s", dir, "tmp.txt");
+	open(file2, O_CREAT | O_TRUNC, 0640);
+	mkdir(dir, 0777);
+	sprintf(file3, "%s/%s", dir, "error.txt");
+	int fd2 = open(file3, O_CREAT | O_WRONLY | O_TRUNC, 0640);
 	if(fd < 0){
 		perror("The file does not exists\n");
 		exit(1);
@@ -42,18 +48,18 @@ int main(int argc, char *argv[]) {
 		if(flag == 0){
 			switch(test){
 				case 0:{
-					printline(buffer, n);
+					printline(buffer, n, dir);
 					break;
 				}
 				case 1:{
 					num = gatherArg(arg, buffer, n);
-					execute(arg, num, execs);
+					execute(arg, num, dir, execs);
 					execs++;
 					break;
 				}
 				case 2:{
 					num = gatherArg(arg, buffer, n);
-					executePipe(arg, num, execs);
+					executePipe(arg, num, dir, execs);
 					execs++;
 					break;
 				}
