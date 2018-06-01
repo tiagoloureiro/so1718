@@ -2,7 +2,6 @@
 
 int main(int argc, char *argv[]) {
 
-	int bug = 1;
 	// Open file that is received as an argument by the program
 	int fd = open(argv[1], O_RDWR, 0640);	
 	// Creates pipeline to save last command result
@@ -16,7 +15,6 @@ int main(int argc, char *argv[]) {
 	open(file, O_CREAT | O_TRUNC, 0640);
 	snprintf(file, BUFSIZE, "./%s/%s", dir, "error.txt");
 	int fd2 = open(file, O_CREAT | O_RDWR | O_TRUNC, 0640);
-	
 	if(fd < 0){
 		perror("The file does not exists\n");
 		exit(1);
@@ -33,7 +31,7 @@ int main(int argc, char *argv[]) {
 	size_t n;
 	int flag = 0;
 	int execs = 1;
-	while((n = readln(0, buffer, 1)) >= 1){
+	while((n = readln(0, buffer, 1)) > 0){
 		char *arg[32];
 		size_t num;
 		int test;
@@ -50,23 +48,22 @@ int main(int argc, char *argv[]) {
 			}
 			if(test == -1){
 				num = gatherArg(arg, buffer, n);
+				printline(buffer, n, dir);
 				execute(arg, num, dir, execs);
 				execs++;
 			}
 			if(test == -2){
 				num = gatherArg(arg, buffer, n);
-				executePipe(arg, num, dir, execs);
+				printline(buffer, n, dir);
+				executeNumPipe(arg, num, dir, execs, 1);
 				execs++;
 			}
 			if(test > 0){
 				if((execs - test) > 0){
 					num = gatherArg(arg, buffer, n);
+					printline(buffer, n, dir);
 					executeNumPipe(arg, num, dir, execs, test);
 					execs++;
-				}
-				else{
-					perror("Comando não existente!\n");
-					exit(0);
 				}
 			}	
 		}
@@ -74,7 +71,7 @@ int main(int argc, char *argv[]) {
 		int error = open(file, O_RDONLY);
 		if(read(error, NULL, 1)!=0){
 			dup(1);
-			write(1, "Execution error!\nCheck errors on file error.txt.\n",61);
+			write(1, "Execution error!\nCheck errors on file error.txt.\n",51);
 			snprintf(file, BUFSIZE, "./%s/%s", dir, "Pipeline");
 			unlink(file);
 			snprintf(file, BUFSIZE, "./%s/%s", dir, "tmp.txt");
@@ -84,6 +81,7 @@ int main(int argc, char *argv[]) {
 				unlink(file);
 			}
 			return -1;
+			exit(0);
 		}
 	}
 	snprintf(file, BUFSIZE, "./%s/%s", dir, "tmp.txt");

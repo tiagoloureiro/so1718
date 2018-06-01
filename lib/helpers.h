@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <string.h>
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -18,8 +17,6 @@ void randomName(char* dir);
 int analyse(char* buffer, ssize_t size);
 
 void execute(char* arg[],  ssize_t num, char* dir, int execs);
-
-void executePipe(char* arg[], ssize_t num, char* dir, int execs);
 
 void executeNumPipe(char* arg[], ssize_t num, char* dir, int execs, int numexec);
 

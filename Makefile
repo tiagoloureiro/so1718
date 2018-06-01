@@ -1,13 +1,13 @@
 make: compile run
 
 compile: main.c
-	gcc main.c lib/helpers.c -o processnb
+	gcc main.c lib/helpers.c -o notebook
 
 run:
-	./processnb example.nb
+	./notebook example.nb
 	
 run_all: compile
-	find . -maxdepth 1 -iname 'example*.nb' -exec ./processnb {} . \;
+	find . -maxdepth 1 -iname 'example*.nb' -exec ./notebook {} . \;
 
 clean:
-	find example_base -iname 'example*.nb' -exec cp {} . \;
+	find example_base -maxdepth 1 -iname 'example*.nb' -exec cp {} . \;

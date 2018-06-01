@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <string.h>
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -19,6 +18,8 @@ ssize_t readln(int fildes, void *buffer, size_t nbyte){
 		cbuffer[i] = c;
 		i++;
 	}
+	if(c == '\n')
+		cbuffer[i++] = '\n';
 	cbuffer[i] = '\0';
 	return i;
 }
@@ -119,88 +120,6 @@ void execute(char* arg[],  ssize_t num, char* dir, int execs){
 			snprintf(file3, size, "./%s/%d", dir, execs);
 			int fd3 = open(file3, O_RDWR | O_CREAT, 777);
 			char c;
-			for(int i = 0; i < num; i++){
-				write(1, arg[i], strlen(arg[i]));
-				if(i != num -1)
-					write(1, " ", 1);
-			}
-			write(1, "\n", 1);
-			write(1,">>>\n",4);
-			while(read(0, &c, 1) > 0){
-				write(1, &c, 1);
-				write(fd3, &c, 1);
-			}
-			close(fd3);
-			write(1,"<<<\n",4);
-			exit(0);
-		}
-	}
-	else{
-		wait(0);
-	}
-}
-
-void executePipe(char* arg[], ssize_t num, char* dir, int execs){
-	size_t size = BUFSIZE;
-	if(!fork()){
-		if(!fork()){
-			int p[2];
-			pipe(p);
-			if(!fork()){
-				dup2(p[0],0);
-				char file[size];
-				snprintf(file, size, "./%s/%s", dir, "Pipeline");
-				int fd = open(file, O_WRONLY | O_TRUNC);
-				dup2(fd, 1);
-				close(p[1]);
-				close(p[0]);
-				close(fd);
-				int x = execvp(arg[1], &arg[1]);
-				if(x == -1){
-					perror("Execução falhada!\n");
-					exit(0);
-				}			
-			}
-			else{
-				dup2(p[1], 1);
-				char file[size];
-				int ex = execs - 1;
-				snprintf(file, size, "./%s/%d", dir, ex);
-				int fd = open(file, O_RDONLY);
-				dup2(fd, 0);
-				close(p[0]);
-				close(fd);
-				char c;
-				while(read(0, &c, 1) > 0){
-					write(1, &c, 1);
-				}
-				close(p[1]);
-				exit(0);
-
-			}
-		}
-		else{
-			wait(0);
-			char file[size];
-			snprintf(file, size, "./%s/%s", dir, "Pipeline");
-			int fd = open(file, O_RDONLY);
-			dup2(fd,0);
-			close(fd);
-			char file2[size];
-			snprintf(file2, size, "./%s/%s", dir, "tmp.txt");
-			int fd2 = open(file2, O_WRONLY | O_APPEND);
-			dup2(fd2, 1);
-			close(fd2);
-			char file3[size];
-			snprintf(file3, size, "./%s/%d", dir, execs);
-			int fd3 = open(file3, O_RDWR | O_CREAT, 777);
-			char c;
-			for(int i = 0; i < num; i++){
-				write(1, arg[i], strlen(arg[i]));
-				if(i != num -1)
-					write(1, " ", 1);
-			}
-			write(1, "\n", 1);
 			write(1,">>>\n",4);
 			while(read(0, &c, 1) > 0){
 				write(1, &c, 1);
@@ -271,12 +190,6 @@ void executeNumPipe(char* arg[], ssize_t num, char* dir, int execs, int numexec)
 			snprintf(file3, size, "./%s/%d", dir, execs);
 			int fd3 = open(file3, O_RDWR | O_CREAT, 777);
 			char c;
-			for(int i = 0; i < num; i++){
-				write(1, arg[i], strlen(arg[i]));
-				if(i != num -1)
-					write(1, " ", 1);
-			}
-			write(1, "\n", 1);
 			write(1,">>>\n",4);
 			while(read(0, &c, 1) > 0){
 				write(1, &c, 1);
@@ -301,7 +214,8 @@ void printline(char* buffer, size_t n, char* dir){
 		dup2(fd, 1);
 		close(fd);
 		write(1, buffer, n);
-		write(1, "\n", 1);
+		if(buffer[n-1] != '\n')
+			write(1, "\n", 1);
 		exit(0);
 	}
 	else{
