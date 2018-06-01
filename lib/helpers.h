@@ -21,4 +21,6 @@ void execute(char* arg[],  ssize_t num, char* dir, int execs);
 
 void executePipe(char* arg[], ssize_t num, char* dir, int execs);
 
+void executeNumPipe(char* arg[], ssize_t num, char* dir, int execs, int numexec);
+
 void printline(char* buffer, size_t n, char* dir);
