@@ -1,50 +1,8 @@
 This command lists all files in the current directory:
 $ ls -la
->>>
-total 144
-drwxrwxr-x  6 johnny johnny  4096 Jun  1 19:29 .
-drwxr-xr-x 16 johnny johnny  4096 Jun  1 16:43 ..
--rw-rw-r--  1 johnny johnny 74687 Mai 28 23:09 enunciado-so-2017-18.pdf
--rw-rw-r--  1 johnny johnny   250 Jun  1 19:29 example2.nb
-drwxrwxr-x  2 johnny johnny  4096 Jun  1 19:28 example_base
--rw-rw-r--  1 johnny johnny   229 Jun  1 19:29 example.nb
-drwxrwxr-x  8 johnny johnny  4096 Jun  1 02:57 .git
--rw-rw-r--  1 johnny johnny   451 Mai 29 21:56 .gitignore
-drwxrwxr-x  2 johnny johnny  4096 Mai 29 02:14 lib
--rw-rw-r--  1 johnny johnny  2701 Jun  1 19:26 main.c
--rw-rw-r--  1 johnny johnny   264 Jun  1 19:16 Makefile
--rwxrwxr-x  1 johnny johnny 18176 Jun  1 19:29 notebook
-drwxrwxr-x  2 johnny johnny  4096 Jun  1 19:29 oczlfimi
--rw-rw-r--  1 johnny johnny     8 Mai 28 23:09 README.md
--rw-rw-r--  1 johnny johnny     0 Jun  1 19:08 Relatório.txt
-<<<
 Now we can order that files:
 $| sort
->>>
-drwxrwxr-x  2 johnny johnny  4096 Jun  1 19:28 example_base
-drwxrwxr-x  2 johnny johnny  4096 Jun  1 19:29 oczlfimi
-drwxrwxr-x  2 johnny johnny  4096 Mai 29 02:14 lib
-drwxrwxr-x  6 johnny johnny  4096 Jun  1 19:29 .
-drwxrwxr-x  8 johnny johnny  4096 Jun  1 02:57 .git
-drwxr-xr-x 16 johnny johnny  4096 Jun  1 16:43 ..
--rw-rw-r--  1 johnny johnny     0 Jun  1 19:08 Relatório.txt
--rw-rw-r--  1 johnny johnny   229 Jun  1 19:29 example.nb
--rw-rw-r--  1 johnny johnny   250 Jun  1 19:29 example2.nb
--rw-rw-r--  1 johnny johnny   264 Jun  1 19:16 Makefile
--rw-rw-r--  1 johnny johnny  2701 Jun  1 19:26 main.c
--rw-rw-r--  1 johnny johnny   451 Mai 29 21:56 .gitignore
--rw-rw-r--  1 johnny johnny 74687 Mai 28 23:09 enunciado-so-2017-18.pdf
--rw-rw-r--  1 johnny johnny     8 Mai 28 23:09 README.md
--rwxrwxr-x  1 johnny johnny 18176 Jun  1 19:29 notebook
-total 144
-<<<
 And from that ordered list fetch the first one:
 $| head -1
->>>
-drwxrwxr-x  2 johnny johnny  4096 Jun  1 19:28 example_base
-<<<
 Now we will count the number of words from the second command:
 $2| wc
->>>
-     16     137     860
-<<<
