@@ -12,7 +12,7 @@
 #define BUFSIZE 256
 
 void terminate(int signum){
-	perror("Control+C detected. Execution terminated");
+	perror("Signal detected. Execution terminated");
 }
 
 ssize_t readln(int fildes, void *buffer, size_t nbyte){
@@ -67,7 +67,6 @@ int analyse(char* buffer, ssize_t size){
 				return -1;
 			}
 			char num[1000];
-			int res = -1;
 			for(int i = 1, j = 0; buffer[i]!='\0' && buffer[i]!='|' ; i++, j++){
 				int test = buffer[i];
 				if(test > 47 && test < 58)
@@ -167,6 +166,9 @@ void executeNumPipe(char* arg[], ssize_t num, char* dir, int execs, int numexec)
 				int ex = execs - numexec;
 				snprintf(file, size, "./%s/%d", dir, ex);
 				int fd = open(file, O_RDONLY);
+				if(fd < 0){
+					exit(0);
+				}
 				dup2(fd, 0);
 				close(p[0]);
 				close(fd);

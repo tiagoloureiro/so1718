@@ -1,7 +1,7 @@
 make: compile run
 
 compile: main.c
-	gcc main.c lib/helpers.c -o notebook
+	gcc -Wall main.c lib/helpers.c -o notebook
 
 run:
 	./notebook example.nb
