@@ -2,6 +2,8 @@
 
 int main(int argc, char *argv[]) {
 
+	signal(SIGINT, terminate);
+
 	// Open file that is received as an argument by the program
 	int fd = open(argv[1], O_RDWR, 0640);	
 	// Creates pipeline to save last command result
@@ -91,9 +93,10 @@ int main(int argc, char *argv[]) {
 	dup2(filenb, 1);
 	close(filetmp);
 	close(filenb);
-	char c;
-	while((read(0, &c, 1)) >= 1){
-		write(1, &c, 1);
+	char c [1024];
+	size_t numchar;
+	while((numchar = read(0, &c, 1024)) > 0){
+		write(1, &c, numchar);
 	}
 	snprintf(file, BUFSIZE, "./%s/%s", dir, "Pipeline");
 	unlink(file);

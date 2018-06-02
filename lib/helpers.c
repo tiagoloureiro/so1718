@@ -7,8 +7,13 @@
 #include <sys/stat.h>
 #include <ctype.h>
 #include <time.h>
+#include <signal.h>
 
 #define BUFSIZE 256
+
+void terminate(int signum){
+	perror("Control+C detected. Execution terminated");
+}
 
 ssize_t readln(int fildes, void *buffer, size_t nbyte){
 	char *cbuffer = (char*) buffer;

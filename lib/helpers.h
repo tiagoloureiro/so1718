@@ -8,13 +8,15 @@
 
 #define BUFSIZE 256
 
-ssize_t readln(int fildes, void *buffer, size_t nbyte);
+void terminate(int signum);
 
-size_t gatherArg(char* arg[], char* buffer, size_t size);
+ssize_t readln(int fildes, void *buffer, size_t nbyte);
 
 void randomName(char* dir);
 
 int analyse(char* buffer, ssize_t size);
+
+size_t gatherArg(char* arg[], char* buffer, size_t size);
 
 void execute(char* arg[],  ssize_t num, char* dir, int execs);
 
