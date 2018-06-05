@@ -2,23 +2,24 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <string.h>
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
 #define BUFSIZE 256
 
-ssize_t readln(int fildes, void *buffer, size_t nbyte);
+void terminate(int signum);
 
-size_t gatherArg(char* arg[], char* buffer, size_t size);
+ssize_t readln(int fildes, void *buffer, size_t nbyte);
 
 void randomName(char* dir);
 
 int analyse(char* buffer, ssize_t size);
 
-void execute(char* arg[],  ssize_t num, int execs);
+size_t gatherArg(char* arg[], char* buffer, size_t size);
 
-void executePipe(char* arg[], ssize_t num, int execs);
+void execute(char* arg[],  ssize_t num, char* dir, int execs);
 
-void printline(char* buffer, size_t n);
+void executeNumPipe(char* arg[], ssize_t num, char* dir, int execs, int numexec);
+
+void printline(char* buffer, size_t n, char* dir);

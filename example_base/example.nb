@@ -4,3 +4,5 @@ Now we can order that files:
 $| sort
 And from that ordered list fetch the first one:
 $| head -1
+Now we will count the number of words from the second command:
+$2| wc

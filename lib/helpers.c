@@ -2,11 +2,18 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <string.h>
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include<time.h>
+#include <ctype.h>
+#include <time.h>
+#include <signal.h>
+
+#define BUFSIZE 256
+
+void terminate(int signum){
+	perror("Signal detected. Execution terminated");
+}
 
 ssize_t readln(int fildes, void *buffer, size_t nbyte){
 	char *cbuffer = (char*) buffer;
@@ -16,6 +23,8 @@ ssize_t readln(int fildes, void *buffer, size_t nbyte){
 		cbuffer[i] = c;
 		i++;
 	}
+	if(c == '\n')
+		cbuffer[i++] = '\n';
 	cbuffer[i] = '\0';
 	return i;
 }
@@ -45,27 +54,39 @@ void randomName(char* dir){
 		c = ascii;
 		dir[i] = c;
 	}
+	dir[8] = '\0';
 }
 
 int analyse(char* buffer, ssize_t size){
 	if(size > 2){
 		if(buffer[0]== '$'){
 			if(buffer[1] =='|'){
-				return 2;
+				return -2;
 			}
-			return 1;
+			if(buffer[1] == ' '){
+				return -1;
+			}
+			char num[1000];
+			for(int i = 1, j = 0; buffer[i]!='\0' && buffer[i]!='|' ; i++, j++){
+				int test = buffer[i];
+				if(test > 47 && test < 58)
+					num[j] = buffer[i];
+				else
+					return 0;
+			}
+			return atoi(num);
 		}
 		if(buffer[0] == '>'){
 			if(buffer[1] == '>'){
 				if(buffer[2] == '>'){
-					return 3;
+					return -3;
 				}
 			}
 		}
 		if(buffer[0] == '<'){
 			if(buffer[1] == '<'){
 				if(buffer[2] == '<'){
-					return 4;
+					return -4;
 				}
 			}
 		}
@@ -73,10 +94,13 @@ int analyse(char* buffer, ssize_t size){
 	return 0;
 }
 
-void execute(char* arg[],  ssize_t num, int execs){
+void execute(char* arg[],  ssize_t num, char* dir, int execs){
+	size_t size = BUFSIZE;
 	if(!fork()){
 		if(!fork()){
-			int fd = open("Pipeline", O_WRONLY, 0640);
+			char file[size];
+			snprintf(file, size , "./%s/%s", dir, "Pipeline");
+			int fd = open(file, O_WRONLY, 0640);
 			dup2(fd,1);
 			close(fd);
 			int x = execvp(arg[1], &arg[1]);
@@ -85,21 +109,21 @@ void execute(char* arg[],  ssize_t num, int execs){
 				exit(0);
 			}
 		}
-		else{		
-			int fd = open("Pipeline", O_RDONLY | O_TRUNC, 0640);
+		else{
+			char file[size];
+			snprintf(file, size, "./%s/%s", dir, "Pipeline");
+			int fd = open(file, O_RDONLY | O_TRUNC, 0640);
 			dup2(fd,0);
 			close(fd);
-			int fd2 = open("tmp.txt", O_WRONLY | O_APPEND);
+			char file2[size];
+			snprintf(file2, size, "./%s/%s", dir, "tmp.txt");
+			int fd2 = open(file2, O_WRONLY | O_APPEND);
 			dup2(fd2, 1);
 			close(fd2);
-			int fd3 = open("execBefore.txt", O_WRONLY | O_TRUNC);
+			char file3[size];
+			snprintf(file3, size, "./%s/%d", dir, execs);
+			int fd3 = open(file3, O_RDWR | O_CREAT, 777);
 			char c;
-			for(int i = 0; i < num; i++){
-				write(1, arg[i], strlen(arg[i]));
-				if(i != num -1)
-					write(1, " ", 1);
-			}
-			write(1, "\n", 1);
 			write(1,">>>\n",4);
 			while(read(0, &c, 1) > 0){
 				write(1, &c, 1);
@@ -107,22 +131,25 @@ void execute(char* arg[],  ssize_t num, int execs){
 			}
 			close(fd3);
 			write(1,"<<<\n",4);
+			exit(0);
 		}
-		exit(0);
 	}
 	else{
 		wait(0);
 	}
 }
 
-void executePipe(char* arg[], ssize_t num){
+void executeNumPipe(char* arg[], ssize_t num, char* dir, int execs, int numexec){
+	size_t size = BUFSIZE;
 	if(!fork()){
 		if(!fork()){
 			int p[2];
 			pipe(p);
 			if(!fork()){
 				dup2(p[0],0);
-				int fd = open("Pipeline", O_WRONLY | O_TRUNC);
+				char file[size];
+				snprintf(file, size, "./%s/%s", dir, "Pipeline");
+				int fd = open(file, O_WRONLY | O_TRUNC);
 				dup2(fd, 1);
 				close(p[1]);
 				close(p[0]);
@@ -135,7 +162,13 @@ void executePipe(char* arg[], ssize_t num){
 			}
 			else{
 				dup2(p[1], 1);
-				int fd = open("execBefore.txt", O_RDONLY);
+				char file[size];
+				int ex = execs - numexec;
+				snprintf(file, size, "./%s/%d", dir, ex);
+				int fd = open(file, O_RDONLY);
+				if(fd < 0){
+					exit(0);
+				}
 				dup2(fd, 0);
 				close(p[0]);
 				close(fd);
@@ -144,24 +177,26 @@ void executePipe(char* arg[], ssize_t num){
 					write(1, &c, 1);
 				}
 				close(p[1]);
+				exit(0);
+
 			}
 		}
 		else{
 			wait(0);
-			int fd = open("Pipeline", O_RDONLY);
+			char file[size];
+			snprintf(file, size, "./%s/%s", dir, "Pipeline");
+			int fd = open(file, O_RDONLY);
 			dup2(fd,0);
 			close(fd);
-			int fd2 = open("tmp.txt", O_WRONLY | O_APPEND);
+			char file2[size];
+			snprintf(file2, size, "./%s/%s", dir, "tmp.txt");
+			int fd2 = open(file2, O_WRONLY | O_APPEND);
 			dup2(fd2, 1);
 			close(fd2);
-			int fd3 = open("execBefore.txt", O_WRONLY | O_TRUNC);
+			char file3[size];
+			snprintf(file3, size, "./%s/%d", dir, execs);
+			int fd3 = open(file3, O_RDWR | O_CREAT, 777);
 			char c;
-			for(int i = 0; i < num; i++){
-				write(1, arg[i], strlen(arg[i]));
-				if(i != num -1)
-					write(1, " ", 1);
-			}
-			write(1, "\n", 1);
 			write(1,">>>\n",4);
 			while(read(0, &c, 1) > 0){
 				write(1, &c, 1);
@@ -169,21 +204,25 @@ void executePipe(char* arg[], ssize_t num){
 			}
 			close(fd3);
 			write(1,"<<<\n",4);
+			exit(0);
 		}
-		exit(0);
 	}
 	else{
 		wait(0);
 	}
 }
 
-void printline(char* buffer, size_t n){
+void printline(char* buffer, size_t n, char* dir){
+	size_t size = BUFSIZE;
 	if(!fork()){
-		int fd = open("tmp.txt", O_WRONLY | O_APPEND);
+		char file[size];
+		snprintf(file, size, "./%s/%s", dir, "tmp.txt");
+		int fd = open(file, O_WRONLY | O_APPEND);
 		dup2(fd, 1);
 		close(fd);
 		write(1, buffer, n);
-		write(1, "\n", 1);
+		if(buffer[n-1] != '\n')
+			write(1, "\n", 1);
 		exit(0);
 	}
 	else{

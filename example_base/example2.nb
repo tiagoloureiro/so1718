@@ -1,0 +1,8 @@
+This command will display the current active processes:
+$ ps
+Now we can select the lines that the word notebook appeared:
+$| grep -w notebook
+Let's check the working directory now:
+$ pwd
+The number of lines that contained the word notebook after the second command:
+$2| wc -l
